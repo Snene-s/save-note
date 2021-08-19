@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:savenote/constants/app_colors.dart';
+import 'package:savenote/enum/enum_app.dart';
 import 'package:savenote/models/product_list.dart';
 import 'package:savenote/views/inventory_setup/pantry_setup.dart';
 
@@ -100,11 +101,12 @@ class ListInventory extends StatelessWidget {
                               style: TextStyle(
                                   fontSize: 14, fontWeight: FontWeight.w500),
                             ),
+                            SizedBox(width: 20,),
                           ],
                         ));
                   }
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.fromLTRB(8.0,8.0,0.0,8.0),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -122,16 +124,71 @@ class ListInventory extends StatelessWidget {
                             ),
                           )),
                           Flexible(
+                              flex: 2,
                               child: Container(
                             margin: EdgeInsets.all(1.0),
                             child: Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
+                                    MainAxisAlignment.center,
                                 children: [
-                                  Text(productsModel
-                                      .products[index - 1].quantity
-                                      .toString()),
-                                  Text("pcs")
+                                  SizedBox(
+                                      width: 55,
+                                      height: 40,
+                                      child: TextFormField(
+                                        maxLines: 1,
+                                        initialValue: productsModel
+                                            .products[index - 1].quantity
+                                            .toString(),
+                                        keyboardType: TextInputType.number,
+                                        onChanged: (val) {
+                                          if (val.isNotEmpty){
+                                          Provider.of<ProductList>(context,
+                                                  listen: false)
+                                              .updateProduct(
+                                                  fdcId: productsModel
+                                                      .products[index - 1]
+                                                      .fdcId,
+                                                  quantity: double.parse(val));
+                                          }
+                                        },
+                                        style:
+                                            TextStyle(fontSize: 13, height: 1),
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                        ),
+                                      )),
+                                  SizedBox(width: 10,),
+                                  SizedBox(
+                                      width: 55,
+                                      height: 40,
+                                      child:DropdownButtonFormField<Unit>(
+                                        value:productsModel.products[index-1].unit ,
+                                          onChanged:(val){ Provider.of<ProductList>(context,
+                                              listen: false).updateProduct(fdcId:productsModel
+                                              .products[index - 1]
+                                              .fdcId,unit: val);},
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          contentPadding: EdgeInsets.fromLTRB(6, 0, 2, 0),
+                                        ),
+                                        items:<Unit>[Unit.pcs, Unit.gal, Unit.kg, Unit.oz].map<DropdownMenuItem<Unit>>((Unit value){
+                                          if (value==Unit.pcs )return DropdownMenuItem<Unit>(
+                                          value: value,
+                                          child: Text("pcs",style: TextStyle(fontSize: 14),),);
+                                          if (value==Unit.gal) return DropdownMenuItem<Unit>(
+                                          value: value,
+                                          child: Text("gal",style:TextStyle(fontSize: 14),),);
+                                          if (value==Unit.kg) return DropdownMenuItem<Unit>(
+                                          value: value,
+                                          child: Text("kg",style:TextStyle(fontSize: 14)),);
+                                          if (value==Unit.oz) return DropdownMenuItem<Unit>(
+                                          value: value,
+                                          child: Text("oz",style:TextStyle(fontSize: 14)),);
+                                          return DropdownMenuItem<Unit>(
+                                            value: value,
+                                            child: Text("kg",style:TextStyle(fontSize: 14)),);
+                                        }).toList() ,)
+                                      )
                                 ]),
                           ))
                         ]),
@@ -141,7 +198,7 @@ class ListInventory extends StatelessWidget {
               )),
           GestureDetector(
             onTap: () {
-              Navigator.pushReplacement(context,
+              Navigator.push(context,
                   MaterialPageRoute(builder: (context) => PantrySetup()));
             },
             child: Container(
