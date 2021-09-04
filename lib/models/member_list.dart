@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:savenote/Services/member_api.dart';
 import 'package:savenote/models/member.dart';
-import 'dart:convert';
+import 'dart:math' ;
 
 class MemberList extends ChangeNotifier {
   List members =[];
@@ -22,8 +22,8 @@ class MemberList extends ChangeNotifier {
     );
     List allMembers = membersFromApi["data"] ;
 
-    for(int i =0; i<allMembers.length;i++){
-        members.add(Member.fromJson(allMembers[i]));
+    for(int i =0; i<2;i++){
+        members.add(Member.fromJson(allMembers[i], (new Random().nextDouble() * 0xFFFFFF).toInt()));
 
     }
     notifyListeners();
@@ -32,7 +32,7 @@ class MemberList extends ChangeNotifier {
   }
   Future addMember({required String name, required String email, required String phone}) async{
 
-    members.add(new Member(email: email,name: name,phone:phone));
+    members.add(new Member(email: email,name: name,phone:phone,color:  (new Random().nextDouble() * 0xFFFFFF).toInt()));
 
     notifyListeners();
     return members;

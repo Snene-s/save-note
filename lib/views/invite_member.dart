@@ -44,7 +44,10 @@ class _InviteMemberState extends State<InviteMember> {
               TextFormField(
                   onChanged: (val) {
                     name = val;
+                    setState(() {
+                    });
                   },
+                  keyboardType: TextInputType.name,
                   decoration: CommonStyle.textFieldStyle(
                       hintTextStr: "Enter member name...")),
               SizedBox(
@@ -61,7 +64,18 @@ class _InviteMemberState extends State<InviteMember> {
               TextFormField(
                   onChanged: (val) {
                     email = val;
+                    setState(() {
+                    });
                   },
+                  validator: (val) {
+                    return val!.isEmpty
+                        ? "email isEmpty"
+                        : !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(val)
+                        ? "Enter valid email"
+                        : null;
+                  },
+                  keyboardType: TextInputType.emailAddress,
                   decoration: CommonStyle.textFieldStyle(
                       hintTextStr: "Enter member email...")),
               SizedBox(
@@ -78,7 +92,16 @@ class _InviteMemberState extends State<InviteMember> {
               TextFormField(
                   onChanged: (val) {
                     phone = val;
+                    setState(() {
+                    });
                   },
+                  validator: (val) {
+                    var isDigitsOnly = int.tryParse(val.toString());
+                    return isDigitsOnly == null
+                        ? 'Input needs to be digits only'
+                        : null;
+                  },
+                  keyboardType: TextInputType.phone,
                   decoration: CommonStyle.textFieldStyle(
                       hintTextStr: "Enter member phone...")),
               SizedBox(
@@ -92,10 +115,11 @@ class _InviteMemberState extends State<InviteMember> {
               SizedBox(
                 height: 30,
               ),
-              GestureDetector(
+              InkWell(
                 onTap: () {
+                  if(_formKey.currentState!.validate()){
                   Provider.of<MemberList>(context, listen: false).addMember(name: name, email: email, phone: phone);
-                  Navigator.pop(context);
+                  Navigator.pop(context);}
                 },
                 child: Container(
                   alignment: Alignment.center,

@@ -3,9 +3,11 @@ import 'package:savenote/constants/app_colors.dart';
 
 class CommonStyle {
   static InputDecoration textFieldStyle(
-      {String hintTextStr = "", Widget? suffix}) {
+      {String hintTextStr = "", Widget? suffix,String? errorMessage}) {
     return InputDecoration(
+        contentPadding: EdgeInsets.all(15.0),
         hintText: hintTextStr,
+        errorText: errorMessage,
         suffixIcon: suffix,
         hintStyle: TextStyle(
             fontSize: 14, fontFamily: 'Roboto', color: AppColors.BORDER_COLOR),

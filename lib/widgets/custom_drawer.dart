@@ -18,7 +18,15 @@ class CustomDrawer extends StatelessWidget {
                   style: TextStyle(fontSize: 13),
                 ),
                 accountName: Text(authModel.user.name),
-                decoration: BoxDecoration(color: Color.fromRGBO(25, 31, 20, 1)),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.bottomLeft,
+                      end: Alignment.topRight,
+                      colors: [
+                        Color.fromRGBO(92, 214, 81, 1),
+                        Color.fromRGBO(152, 231, 109, 0.8),
+                      ]),
+                ),
                 currentAccountPicture: CircleAvatar(
                     radius: 40,
                     backgroundColor: Colors.white,
@@ -70,9 +78,6 @@ class CustomDrawer extends StatelessWidget {
               ),
               title: Text("Settings"),
               dense: true,
-            ),
-            SizedBox(
-              height: 15,
             ),
             ListTile(
               leading: Icon(

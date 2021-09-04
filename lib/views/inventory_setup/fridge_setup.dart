@@ -1,13 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:savenote/Services/product_search_api.dart';
 import 'package:savenote/constants/app_colors.dart';
 import 'package:savenote/models/product.dart';
 import 'package:savenote/models/product_list.dart';
+import 'package:savenote/utils/scan_barcode.dart';
+import 'package:savenote/views/inventory_setup/add_new_item.dart';
 import 'package:savenote/views/inventory_setup/list_inventory_view.dart';
-import 'package:savenote/views/inventory_setup/pantry_setup.dart';
+import 'package:savenote/views/inventory_setup/other_setup.dart';
 import 'package:savenote/widgets/widget.dart';
 
 class FridgeSetup extends StatefulWidget {
@@ -44,11 +48,11 @@ class _FridgeSetupState extends State<FridgeSetup> {
     return Scaffold(
       appBar: CustomAppBar(
         titleStr: "Step 1/3",
-        action: GestureDetector(
-            onTap: () {Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => PantrySetup()));},
+        action: InkWell(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => OtherSetup()));
+            },
             child: Text("skip",
                 style:
                     TextStyle(color: AppColors.PRIMARY_COLOR, fontSize: 16))),
@@ -61,7 +65,7 @@ class _FridgeSetupState extends State<FridgeSetup> {
               TextField(
                 controller: _controller,
                 decoration: InputDecoration(
-                    hintText: "Search anything...",
+                    hintText: "Add fridge items...",
                     suffixIcon: searching && !notFound
                         ? IconButton(
                             icon: Icon(Icons.cancel_outlined),
@@ -74,9 +78,16 @@ class _FridgeSetupState extends State<FridgeSetup> {
                               _controller.clear();
                             },
                           )
-                        : Icon(
-                            Icons.qr_code_2_outlined,
-                            color: AppColors.PRIMARY_COLOR,
+                        : Container(
+                            margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                            child: IconButton(
+                                icon: SvgPicture.asset(
+                                  "assets/icons/ph_barcode.svg",
+                                ),
+                                onPressed: () async {
+                                  print(await scanBarcode(context));
+                                } //do something,
+                                ),
                           ),
                     hintStyle: TextStyle(
                         fontSize: 14,
@@ -129,11 +140,22 @@ class _FridgeSetupState extends State<FridgeSetup> {
                 },
               ),
               !searching
-                  ? ListInventory()
+                  ? ListInventory(
+                      type: "Fridge",
+                    )
                   : notFound
-                      ? NotFoundPage()
+                      ? NotFoundPage(
+                          type: "Fridge",
+                          clear: () {
+                            setState(() {
+                              productsSuggestion = [];
+                              searching = false;
+                            });
+                            _controller.clear();
+                          },
+                        )
                       : Container(
-                          height: 320,
+                          height: 300,
                           width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                               border: searching
@@ -154,15 +176,15 @@ class _FridgeSetupState extends State<FridgeSetup> {
                                   : Border.all(color: Colors.transparent)),
                           child: _loading
                               ? Container(
-                                  margin: EdgeInsets.all(60),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 60, vertical: 63),
-                                  child: SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: CircularProgressIndicator(
-                                        color: AppColors.PRIMARY_COLOR,
-                                      )))
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: 130,
+                                      horizontal:
+                                          (MediaQuery.of(context).size.width -
+                                                  90) /
+                                              2),
+                                  child: CircularProgressIndicator(
+                                    color: AppColors.PRIMARY_COLOR,
+                                  ))
                               : Flex(direction: Axis.vertical, children: [
                                   Expanded(
                                       child: ListView.builder(
@@ -194,7 +216,12 @@ class _FridgeSetupState extends State<FridgeSetup> {
                                                           foodCategory:
                                                               productsSuggestion[
                                                                       index]
-                                                                  .foodCategory);
+                                                                  .foodCategory,
+                                                          ingredients:
+                                                              productsSuggestion[
+                                                                      index]
+                                                                  .ingredients,
+                                                          type: "Fridge");
                                                   setState(() {
                                                     productsSuggestion = [];
                                                     searching = false;
@@ -233,7 +260,10 @@ class _FridgeSetupState extends State<FridgeSetup> {
                                             );
                                           }))
                                 ]),
-                        )
+                        ),
+              SizedBox(
+                height: 20,
+              )
             ],
           ),
         ),
@@ -243,7 +273,10 @@ class _FridgeSetupState extends State<FridgeSetup> {
 }
 
 class NotFoundPage extends StatelessWidget {
-  const NotFoundPage({Key? key}) : super(key: key);
+  final String type;
+  final Function? clear;
+  const NotFoundPage({Key? key, required this.type, this.clear})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -279,23 +312,42 @@ class NotFoundPage extends StatelessWidget {
                   height: 2.131,
                   color: Color.fromRGBO(102, 102, 102, 1))),
           SizedBox(
-            height: 20,
+            height: 50,
           ),
-          Container(
-            alignment: Alignment.center,
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 19),
-            decoration: BoxDecoration(
-              color: AppColors.PRIMARY_COLOR,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              "Setup fridge",
-              style: TextStyle(
-                  fontSize: 16,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AddNewItem(type: type)));
+              clear!();
+            },
+            child: Container(
+              alignment: Alignment.center,
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 19),
+              decoration: BoxDecoration(
+                color: AppColors.PRIMARY_COLOR,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                Icon(
+                  Icons.add_box_outlined,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  "Add item",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
+                ),
+              ]),
             ),
           ),
         ],

@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:savenote/constants/app_colors.dart';
 import 'package:savenote/constants/common_style.dart';
 import 'package:savenote/views/create_household.dart';
+import 'package:savenote/views/forgot_password/forgot_password.dart';
 import 'package:savenote/widgets/widget.dart';
 
 class SignIn extends StatefulWidget {
@@ -49,6 +50,7 @@ class _SignInState extends State<SignIn> {
                       setState(() {
                       });
                     },
+                    keyboardType: TextInputType.emailAddress,
                     decoration: CommonStyle.textFieldStyle(
                         hintTextStr: "Enter your email...")),
                 SizedBox(
@@ -88,14 +90,20 @@ class _SignInState extends State<SignIn> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text("Forget password?",
-                        style: TextStyle(color: AppColors.PRIMARY_COLOR)),
+                    InkWell(
+                      onTap: (){Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ForgotPassword()));},
+                      child: Text("Forget password?",
+                          style: TextStyle(color: AppColors.PRIMARY_COLOR)),
+                    ),
                   ],
                 ),
                 SizedBox(
                   height: 30,
                 ),
-                GestureDetector(
+                InkWell(
                   onTap: () {
                     email.isNotEmpty && password.isNotEmpty
                         ? Navigator.pushReplacement(

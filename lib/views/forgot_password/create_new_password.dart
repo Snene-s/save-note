@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:savenote/constants/app_colors.dart';
 import 'package:savenote/constants/common_style.dart';
+import 'package:savenote/views/home.dart';
 import 'package:savenote/widgets/widget.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({Key? key}) : super(key: key);
+class CreateNewPassword extends StatefulWidget {
+  const CreateNewPassword({Key? key}) : super(key: key);
 
   @override
-  _SignUpState createState() => _SignUpState();
+  _CreateNewPasswordState createState() => _CreateNewPasswordState();
 }
 
-class _SignUpState extends State<SignUp> {
+class _CreateNewPasswordState extends State<CreateNewPassword> {
   final _formKey = GlobalKey<FormState>();
   bool _showPassword = false;
-  String _email = "", _password = "", _username = "", _repeatPassword = "";
+  String _password = "", _repeatPassword = "";
   bool validateStructure(String value) {
     String pattern =
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
@@ -25,65 +27,43 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        titleStr: "Create your account ",
+        titleStr: "Create new password",
       ),
-      body: Form(
-        key: _formKey,
+      body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 24),
-          child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 20,
+                  height: MediaQuery.of(context).size.height / 30,
                 ),
-                Text(
-                  "Username",
-                  style: TextStyle(
-                      fontFamily: 'Roboto', fontSize: 16, color: Colors.black),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                TextFormField(
-                    validator: (val) {
-                      return val!.isEmpty ? "Username is required" : null;
-                    },
-                    onChanged: (val) {
-                      _username = val;
-                      setState(() {
-                      });
-                    },
-                    decoration: CommonStyle.textFieldStyle(
-                        hintTextStr: "Enter your username...")),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  "Email",
-                  style: TextStyle(
-                      fontFamily: 'Roboto', fontSize: 16, color: Colors.black),
+                Center(
+                  child: Container(
+                    child: SvgPicture.asset(
+                        'assets/images/inventory_setup_img.svg',
+                        height: MediaQuery.of(context).size.height >
+                                MediaQuery.of(context).size.width
+                            ? MediaQuery.of(context).size.height / 5
+                            : MediaQuery.of(context).size.width / 5),
+                  ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: MediaQuery.of(context).size.height / 30,
                 ),
-                TextFormField(
-                    validator: (val) {
-                      return val!.isEmpty
-                          ? "Email is required"
-                          : !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                  .hasMatch(val)
-                              ? "Enter valid Email"
-                              : null;
-                    },
-                    onChanged: (val) {
-                      _email = val;
-                      setState(() {
-                      });
-                    },
-                    decoration: CommonStyle.textFieldStyle(
-                        hintTextStr: "Enter your email...")),
+                Center(
+                  child: Text(
+                    "Set your new password",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 16,
+                        color: Colors.grey,
+                        height: 1.5),
+                  ),
+                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -103,8 +83,7 @@ class _SignUpState extends State<SignUp> {
                     },
                     onChanged: (val) {
                       _password = val;
-                      setState(() {
-                      });
+                      setState(() {});
                     },
                     obscureText: !_showPassword,
                     decoration: CommonStyle.textFieldStyle(
@@ -139,8 +118,7 @@ class _SignUpState extends State<SignUp> {
                   },
                   onChanged: (val) {
                     _repeatPassword = val;
-                    setState(() {
-                    });
+                    setState(() {});
                   },
                   obscureText: true,
                   decoration: CommonStyle.textFieldStyle(
@@ -151,26 +129,24 @@ class _SignUpState extends State<SignUp> {
                 ),
                 InkWell(
                   onTap: () {
-                    if(_email.isNotEmpty &&
-                        _password.isNotEmpty &&
-                        _username.isNotEmpty &&
-                        _repeatPassword.isNotEmpty) _formKey.currentState!.validate();
+                    if (_password.isNotEmpty && _repeatPassword.isNotEmpty) {
+                      if (_formKey.currentState!.validate())
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) => Home()));
+                    }
                   },
                   child: Container(
                     alignment: Alignment.center,
                     width: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 19),
                     decoration: BoxDecoration(
-                      color: _email.isEmpty ||
-                              _password.isEmpty ||
-                              _username.isEmpty ||
-                              _repeatPassword.isEmpty
+                      color: _password.isEmpty || _repeatPassword.isEmpty
                           ? AppColors.SECONDARY_COLOR
                           : AppColors.PRIMARY_COLOR,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      "Start",
+                      "Reset your password",
                       style: TextStyle(
                           fontSize: 16,
                           fontFamily: 'Roboto',

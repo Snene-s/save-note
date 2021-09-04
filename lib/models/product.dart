@@ -4,6 +4,7 @@ class Product {
   final String description;
   final int fdcId;
   final String foodCategory;
+   List? ingredients;
    double quantity;
    Unit unit;
 
@@ -11,9 +12,10 @@ class Product {
       {required this.description,
         required this.fdcId,
         required this.foodCategory,
+         this.ingredients,
         this.quantity=1,this.unit=Unit.pcs});
   factory Product.fromJson(Map<String, dynamic> json) =>
-      Product(fdcId: json["fdcId"], foodCategory: json["foodCategory"], description: json["description"]);
+      Product(fdcId: json["fdcId"], foodCategory: json["foodCategory"], description: json["description"],ingredients: json["foodNutrients"]);
 
   changeQuantity(double quant){
     this.quantity=quant;

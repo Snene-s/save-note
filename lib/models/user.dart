@@ -11,7 +11,7 @@ class User {
       id: responseData['id'] ,
       name: responseData["name"],
       imgUrl: responseData['imgUrl'],
-      email: responseData['email']?? "Not found",
+      email: responseData['email'],
 
     );
   }

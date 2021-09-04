@@ -4,6 +4,7 @@ import 'package:savenote/constants/app_colors.dart';
 import 'package:savenote/models/member_list.dart';
 import 'package:savenote/views/invite_member.dart';
 
+
 class GridMembers extends StatelessWidget {
   const GridMembers({Key? key}) : super(key: key);
 
@@ -41,8 +42,8 @@ class GridMembers extends StatelessWidget {
                     backgroundColor: AppColors.BORDER_COLOR,
                     child: CircleAvatar(
                       radius: 40.2,
-                      backgroundColor: AppColors.SECONDARY_COLOR,
-                      child:Text(membersModel.members[index].name.substring(0,2).toUpperCase(),style: TextStyle(fontSize: 18),)
+                      backgroundColor: Color(membersModel.members[index].color).withOpacity(1.0),
+                      child:Text(membersModel.members[index].name.substring(0,2).toUpperCase(),style: TextStyle(fontSize: 28,color: Colors.white),)
                     ),
                   );
                 },
