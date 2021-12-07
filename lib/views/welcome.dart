@@ -20,138 +20,149 @@ class _WelcomeState extends State<Welcome> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-
-          child: Column(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height/9,
-              ),
-              Center(
-                child: Text(
-                  'Savenote',
-                  style: TextStyle(
-                      fontSize: 49,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.TEXT_COLOR,
-                      letterSpacing: -0.3),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height/18,
-              ),
-              Container(
-                child: SvgPicture.asset(
-                  'assets/images/welcome.svg',
-                  semanticsLabel: "Welcome picture",
-                  height:  MediaQuery.of(context).size.height >
-                      MediaQuery.of(context).size.width
-                      ? MediaQuery.of(context).size.height / 4
-                      : MediaQuery.of(context).size.width / 4,
-                ),
-              ),
-              SizedBox(
-                height:MediaQuery.of(context).size.height/23,
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => SignUp()));
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 19),
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  decoration: BoxDecoration(
-                    color: AppColors.PRIMARY_COLOR,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    "Create an account",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => SignIn()));
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 19),
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                  decoration: BoxDecoration(
-                    color: AppColors.SECONDARY_COLOR,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    "Log in",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.PRIMARY_COLOR),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height/25,
-              ),
-              Text(
-                "Or ",
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 9,
+            ),
+            Center(
+              child: Text(
+                'Savenote',
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 49,
                     fontFamily: 'Roboto',
-                    color: AppColors.TEXT_COLOR),
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.TEXT_COLOR,
+                    letterSpacing: -0.3),
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height/25,
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 18,
+            ),
+            Container(
+              child: SvgPicture.asset(
+                'assets/images/welcome.svg',
+                semanticsLabel: "Welcome picture",
+                height: MediaQuery.of(context).size.height >
+                        MediaQuery.of(context).size.width
+                    ? MediaQuery.of(context).size.height / 4
+                    : MediaQuery.of(context).size.width / 4,
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => CreateHousehold()));
-                },
-                child: Container(
-                    alignment: Alignment.center,
-                    width: (MediaQuery.of(context).size.width),
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 19),
-                    margin: EdgeInsets.symmetric(vertical: 0,horizontal: 20),
-                    decoration: BoxDecoration(
-                      color: HexColor("#F4F3F3"),
-                      border: Border.all(width: 0.5,color: Color.fromRGBO(153, 153, 153, 1)),
-                      borderRadius: BorderRadius.circular(8),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 23,
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+              width: MediaQuery.of(context).size.width,
+              child: Ink(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: AppColors.PRIMARY_COLOR,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignUp()));
+                  },
+                  child: Center(
+                    child: Text(
+                      "Create an account",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset('assets/images/icongoogle.png',
-                            width: 24, height: 24),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text("Continue with Google",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromRGBO(102, 102, 102, 1)
-                            ))
-                      ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+              width: MediaQuery.of(context).size.width,
+              child: Ink(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: AppColors.SECONDARY_COLOR,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SignIn()));
+                  },
+                  child: Center(
+                    child: Text(
+                      "Log in",
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.PRIMARY_COLOR),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 25,
+            ),
+            Text(
+              "Or ",
+              style: TextStyle(
+                  fontSize: 16,
+                  fontFamily: 'Roboto',
+                  color: AppColors.TEXT_COLOR),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 25,
+            ),
+            Container(
+              width: (MediaQuery.of(context).size.width),
+              margin: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+              child: Ink(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: HexColor("#F4F3F3"),
+                  border: Border.all(
+                      width: 0.5, color: Color.fromRGBO(153, 153, 153, 1)),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: InkWell(
+                    onTap: () {
+                     /* Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreateHousehold()));*/
+                    },
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/images/icongoogle.png',
+                              width: 24, height: 24),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text("Continue with Google",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.w500,
+                                  color: Color.fromRGBO(102, 102, 102, 1)))
+                        ],
+                      ),
                     )),
               ),
-
-            ],
-          ),
+            ),
+          ],
         ),
-
+      ),
     );
   }
 }

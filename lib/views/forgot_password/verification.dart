@@ -54,8 +54,7 @@ class _VerificationState extends State<Verification> {
               ),
               Center(
                 child: Container(
-                  child: SvgPicture.asset(
-                      'assets/images/inventory_setup_img.svg',
+                  child: SvgPicture.asset('assets/images/password3_img.svg',
                       height: MediaQuery.of(context).size.height >
                               MediaQuery.of(context).size.width
                           ? MediaQuery.of(context).size.height / 5
@@ -143,11 +142,12 @@ class _VerificationState extends State<Verification> {
                   style: TextStyle(
                     shadows: [
                       Shadow(
-                          color: AppColors.PRIMARY_COLOR, offset: Offset(0, -1.5))
+                          color: AppColors.PRIMARY_COLOR,
+                          offset: Offset(0, -1.5))
                     ],
                     color: Colors.transparent,
                     decoration: TextDecoration.underline,
-                    decorationColor:  AppColors.PRIMARY_COLOR,
+                    decorationColor: AppColors.PRIMARY_COLOR,
                     decorationThickness: 1,
                     decorationStyle: TextDecorationStyle.solid,
                   ),
@@ -156,33 +156,35 @@ class _VerificationState extends State<Verification> {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 22 + 8,
               ),
-              InkWell(
-                enableFeedback: true,
-                onTap: () {
-                  if (completed && !hasError) {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CreateNewPassword()));
-                  }
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 19),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: Ink(
                   decoration: BoxDecoration(
                     color: !completed || hasError
                         ? AppColors.SECONDARY_COLOR
                         : AppColors.PRIMARY_COLOR,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(
-                    "Send",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
+                  height: 50,
+                  child: InkWell(
+                    onTap: () {
+                      if (completed && !hasError) {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateNewPassword()));
+                      }
+                    },
+                    child: Center(
+                      child: Text(
+                        "Verify",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
+                    ),
                   ),
                 ),
               ),

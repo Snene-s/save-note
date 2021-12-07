@@ -6,25 +6,27 @@ import 'package:provider/provider.dart';
 import 'package:savenote/constants/app_colors.dart';
 import 'package:savenote/constants/common_style.dart';
 import 'package:savenote/enum/enum_app.dart';
+import 'package:savenote/models/product.dart';
 import 'package:savenote/models/product_list.dart';
 import 'package:savenote/widgets/widget.dart';
 
 class AddNewItem extends StatefulWidget {
   final String type;
-  const AddNewItem({Key? key, required this.type}) : super(key: key);
+  final Function? handlerConfirm;
+  const AddNewItem({Key? key, required this.type, this.handlerConfirm}) : super(key: key);
 
   @override
   _AddNewItemState createState() => _AddNewItemState();
 }
 
 class _AddNewItemState extends State<AddNewItem> {
-
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _controller = TextEditingController();
   String productName = "", itemIngredient = "";
   Unit unit = Unit.kg;
   String category = "";
   List<String> ingredients = [];
+
 
   @override
   Widget build(BuildContext context) {
@@ -92,8 +94,8 @@ class _AddNewItemState extends State<AddNewItem> {
                 DropdownButtonFormField<Unit>(
                   iconSize: 24,
                   elevation: 16,
-                  decoration: CommonStyle.textFieldStyle(
-                      hintTextStr: "Select a unit"),
+                  decoration:
+                      CommonStyle.textFieldStyle(hintTextStr: "Select a unit"),
                   onChanged: (val) {
                     unit = val!;
                     setState(() {});
@@ -233,49 +235,51 @@ class _AddNewItemState extends State<AddNewItem> {
                 SizedBox(
                   height: 15,
                 ),
-                InkWell(
-                  onTap: () {
-                    Random random = new Random();
-                    Provider.of<ProductList>(
-                      context,
-                      listen: false)
-                      .addProduct(
-                      fdcId:random.nextInt(10000),
-                      description:productName,
-                      foodCategory:category,
-                      ingredients: ingredients,
-                      type: widget.type);
-                    Navigator.pop(context);
-                    },
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 19),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Ink(
+                    height: 50,
                     decoration: BoxDecoration(
                       color: productName.isNotEmpty
                           ? AppColors.PRIMARY_COLOR
                           : AppColors.SECONDARY_COLOR,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.verified_user_outlined,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "Confirm",
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white),
-                          ),
-                        ]),
+                    child: InkWell(
+                      onTap: () {
+
+                       (widget.handlerConfirm==null)? Provider.of<ProductList>(context, listen: false)
+                            .addProduct(
+                                product_Name: productName,
+                                Categorie: category,
+                                ingredients: ingredients,
+                                type: widget.type): widget.handlerConfirm!(new Product( product_Name: productName,
+                         Categorie: category,
+                         ingredients: ingredients,));
+                        Navigator.pop(context);
+                      },
+                      child: Center(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.verified_user_outlined,
+                                color: Colors.white,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                "Confirm",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white),
+                              ),
+                            ]),
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(

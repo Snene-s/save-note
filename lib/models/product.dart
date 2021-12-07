@@ -1,29 +1,66 @@
 import 'package:savenote/enum/enum_app.dart';
 
 class Product {
-  final String description;
-  final int fdcId;
-  final String foodCategory;
-   List? ingredients;
-   double quantity;
-   Unit unit;
 
-   Product(
-      {required this.description,
-        required this.fdcId,
-        required this.foodCategory,
-         this.ingredients,
-        this.quantity=1,this.unit=Unit.pcs});
-  factory Product.fromJson(Map<String, dynamic> json) =>
-      Product(fdcId: json["fdcId"], foodCategory: json["foodCategory"], description: json["description"],ingredients: json["foodNutrients"]);
+  final String product_Name;
+  final String Categorie;
 
-  changeQuantity(double quant){
-    this.quantity=quant;
+  List? ingredients;
+  int? gtinUpc;
+  int shelf_life=10;
+  double quantity;
+  Unit unit;
+  bool isChecked;
+
+  Product(
+      {
+      required this.product_Name,
+      required this.Categorie,
+      this.ingredients,
+      this.quantity = 1,
+      this.unit = Unit.pcs,this.isChecked=false});
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
+      product_Name: json["product_Name"],
+      Categorie: json["Categorie"],
+      ingredients: json["ingredients"]);
+
+  changeQuantity(double quant) {
+    this.quantity = quant;
   }
-  changeUnit(Unit x){
-    this.unit=x;
+
+  changeUnit(Unit x) {
+    this.unit = x;
   }
-  Map<String, dynamic> toJson() =>
-      {"fdcId": fdcId, "description": description, "foodCategory": foodCategory,"quantity":quantity};
+  checked(val) {
+    this.isChecked = val;
+  }
+
+ static String unitToString(Unit unit) {
+    switch (unit) {
+      case Unit.kg:
+        {
+          return "kg";
+        }
+
+      case Unit.oz:
+        {
+          return "oz";
+        }
+      case Unit.pcs:
+        {
+          return "pcs";
+        }
+      case Unit.gal:
+        {
+          return "gal";
+        }
+
+      default:
+        {
+          return "";
+        }
+    }
+  }
+
+
 }
-

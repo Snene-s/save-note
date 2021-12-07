@@ -1,18 +1,19 @@
 class User {
-  int id;
-  String name;
+  String username;
   String email;
-  String imgUrl;
+  String color;
+  int phone;
+  String ?admin;
 
-  User({required this.id,required this.name, required this.email,required this.imgUrl});
+  User({ required this.username, required this.email,required this.color,required this.phone,this.admin});
 
   factory User.fromJson(Map<String, dynamic> responseData) {
     return User(
-      id: responseData['id'] ,
-      name: responseData["name"],
-      imgUrl: responseData['imgUrl'],
+      username: responseData["username"],
       email: responseData['email'],
-
+      color: responseData['color'],
+      phone: responseData['phone'] ,
+      admin: responseData['admin_of'],
     );
   }
 }

@@ -42,8 +42,7 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                 ),
                 Center(
                   child: Container(
-                    child: SvgPicture.asset(
-                        'assets/images/inventory_setup_img.svg',
+                    child: SvgPicture.asset('assets/images/password1_img.svg',
                         height: MediaQuery.of(context).size.height >
                                 MediaQuery.of(context).size.width
                             ? MediaQuery.of(context).size.height / 5
@@ -127,31 +126,37 @@ class _CreateNewPasswordState extends State<CreateNewPassword> {
                 SizedBox(
                   height: 30,
                 ),
-                InkWell(
-                  onTap: () {
-                    if (_password.isNotEmpty && _repeatPassword.isNotEmpty) {
-                      if (_formKey.currentState!.validate())
-                        Navigator.pushReplacement(context,
-                            MaterialPageRoute(builder: (context) => Home()));
-                    }
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 19),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Ink(
                     decoration: BoxDecoration(
                       color: _password.isEmpty || _repeatPassword.isEmpty
                           ? AppColors.SECONDARY_COLOR
                           : AppColors.PRIMARY_COLOR,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(
-                      "Reset your password",
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
+                    height: 50,
+                    child: InkWell(
+                      onTap: () {
+                        if (_password.isNotEmpty &&
+                            _repeatPassword.isNotEmpty) {
+                          if (_formKey.currentState!.validate())
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Home()));
+                        }
+                      },
+                      child: Center(
+                        child: Text(
+                          "Reset your password",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
+                        ),
+                      ),
                     ),
                   ),
                 ),

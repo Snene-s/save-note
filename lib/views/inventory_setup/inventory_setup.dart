@@ -44,27 +44,32 @@ class _InventorySetupState extends State<InventorySetup> {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 15,
               ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => FridgeSetup()));
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 19),
-                  margin: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+              Container(
+                width: MediaQuery.of(context).size.width,
+
+                margin: EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+
+                child:Ink(
                   decoration: BoxDecoration(
                     color: AppColors.PRIMARY_COLOR,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Text(
-                    "Let's go",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
+                  height: 50,
+                  child: InkWell(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => FridgeSetup()));
+                  },
+                  child: Center(
+                    child: Text(
+                        "Let's go",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
+                  ),
                   ),
                 ),
               ),
